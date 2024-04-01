@@ -8,6 +8,7 @@ import User_data.User;
 import User_data.UserDetails;
 import User_data.UserInfo;
 import java.sql.Statement;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
 
@@ -73,12 +74,21 @@ public class UserDAO {
     }
 
     public boolean loginUser(String username, String password) {
-        String selectUserQuery = "SELECT * FROM users WHERE name = ? AND pass = ?";
+        String selectUserQuery = "SELECT * FROM users WHERE name = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectUserQuery)) {
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next(); // If a matching user is found
+            if (resultSet.next()) {
+                String hashedPassword = resultSet.getString("pass");
+                // Compare the hash of the entered password with the hash stored in the database
+                if (BCrypt.checkpw(password, hashedPassword)) {
+                    return true; // Authentication successful
+                } else {
+                    return false; // Authentication failed
+                }
+            } else {
+                return false; // Username not found
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -100,8 +110,6 @@ public class UserDAO {
         }
         return null; // Return null if the role is not found
     }
-
-   
 
     public User getUser(int Id) {
         String selectUserQuery = "SELECT * FROM users WHERE id = ?";

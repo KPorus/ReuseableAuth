@@ -2,8 +2,14 @@ package Validation;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class isPassValid extends JFrame {
+
+    public String hashPassword(String password) {
+        // Hash the password using BCrypt
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
 
     public boolean isValidPass(String password) {
         // Check if the password is at least 8 characters long

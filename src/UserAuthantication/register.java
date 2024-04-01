@@ -41,7 +41,7 @@ public class register extends JFrame {
 
         JLabel logo = new JLabel();
         try {
-            ImageIcon logoIcon = new ImageIcon("D:\\ReuseableAuth\\src\\Images\\hotel.jpeg");
+            ImageIcon logoIcon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\hotel.jpeg");
             Image scaledImage = logoIcon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
             logoIcon = new ImageIcon(scaledImage);
             logo.setIcon(logoIcon);
@@ -97,21 +97,23 @@ public class register extends JFrame {
             String User = userName.getText();
             String Email = email.getText();
             String Pass = new String(pass.getPassword());
-            if (!passValidator.isValidPass(Pass) && !emailValidator.isValidEmail(Email)) {
-                JOptionPane.showMessageDialog(register.this, "Invalid email & password format.");
-            } else if (!emailValidator.isValidEmail(Email)) {
-                JOptionPane.showMessageDialog(register.this, "Invalid email format.");
-            } else if (!passValidator.isValidPass(Pass)) {
-                JOptionPane.showMessageDialog(register.this, "Invalid password format.");
-            } else if (userDAO.isUserExists(User)) {
-                JOptionPane.showMessageDialog(register.this, "Username already exists.");
-            } else if (userDAO.isEmailExists(Email)) {
-                JOptionPane.showMessageDialog(register.this, "Email already exists.");
-            } else {
-                if (userDAO.registerUser(User, Email, Pass, "customer")) {
-                    JOptionPane.showConfirmDialog(register.this, "Registration Successful", "Success Message", 0);
+            String hashedPassword = passValidator.hashPassword(Pass);
+
+            if (passValidator.isValidPass(Pass)) {
+                if (!emailValidator.isValidEmail(Email)) {
+                    JOptionPane.showMessageDialog(register.this, "Invalid email & password format.");
+                } else if (!emailValidator.isValidEmail(Email)) {
+                    JOptionPane.showMessageDialog(register.this, "Invalid email format.");
+                } else if (userDAO.isUserExists(User)) {
+                    JOptionPane.showMessageDialog(register.this, "Username already exists.");
+                } else if (userDAO.isEmailExists(Email)) {
+                    JOptionPane.showMessageDialog(register.this, "Email already exists.");
                 } else {
-                    JOptionPane.showMessageDialog(register.this, "User registration failed.");
+                    if (userDAO.registerUser(User, Email, hashedPassword, "customer")) {
+                        JOptionPane.showMessageDialog(register.this, "Registration Successful", "Success Message", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(register.this, "User registration failed.");
+                    }
                 }
             }
         });
@@ -155,7 +157,7 @@ public class register extends JFrame {
     }
 
     private Image getAppIcon() {
-        ImageIcon icon = new ImageIcon("D:\\ReuseableAuth\\src\\Images\\Icon.jpeg");
+        ImageIcon icon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\Icon.jpeg");
         return icon.getImage();
     }
 
