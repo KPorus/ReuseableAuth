@@ -41,7 +41,7 @@ public class register extends JFrame {
 
         JLabel logo = new JLabel();
         try {
-            ImageIcon logoIcon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\hotel.jpeg");
+            ImageIcon logoIcon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\Login.jpeg");
             Image scaledImage = logoIcon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
             logoIcon = new ImageIcon(scaledImage);
             logo.setIcon(logoIcon);
