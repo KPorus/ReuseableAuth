@@ -49,7 +49,7 @@ public class login extends JFrame {
 
         JLabel logo = new JLabel();
         try {
-            ImageIcon logoIcon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\Login1.png");
+            ImageIcon logoIcon = new ImageIcon("D:\\ReuseableAuth\\src\\Images\\Login1.png");
             Image scaledImage = logoIcon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
             logoIcon = new ImageIcon(scaledImage);
             logo.setIcon(logoIcon);
@@ -155,7 +155,7 @@ public class login extends JFrame {
     }
 
     private Image getAppIcon() {
-        ImageIcon icon = new ImageIcon("G:\\Java Project\\ReuseableAuth\\src\\Images\\Icon.jpeg");
+        ImageIcon icon = new ImageIcon("D:\\ReuseableAuth\\src\\Images\\Icon.jpeg");
         return icon.getImage();
     }
 
